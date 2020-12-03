@@ -25,4 +25,9 @@ const updateQuantity = (collectionName, id, quantity) => {
   return collection.updateOne({ _id: ObjectId(id) }, { $inc: { quantity } })
 }
 
-module.exports = { init, insertItem, getItems, updateQuantity }
+const deleteById = (collectionName, id) => {
+  const collection = db.collection(collectionName)
+  return collection.deleteOne({ _id: ObjectId(id)})
+}
+
+module.exports = { init, insertItem, getItems, updateQuantity, deleteById }

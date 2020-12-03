@@ -1,5 +1,5 @@
 const express = require('express')
-const { insertItem, getItems, updateQuantity } = require('../db')
+const { insertItem, getItems, updateQuantity, deleteById } = require('../db')
 const Joi = require('@hapi/joi')
 const router = express.Router()
 const collectionName = 'ticket'
@@ -24,8 +24,19 @@ router.post('/', (req, res) => {
 router.get('/', (req, res) => {
     getItems(collectionName)
         .then((data) => {
-            console.log(data)
-            res.json(data.ops)
+            res.json(data)
+            res.status(200).end()
+        })
+        .catch((err) => {
+            res.status(500).end()
+        })
+})
+
+router.delete('/:id', (req, res) => {
+    deleteById(collectionName, req.params.id)
+    getItems(collectionName)
+        .then((data) => {
+            res.json(data)
             res.status(200).end()
         })
         .catch((err) => {
